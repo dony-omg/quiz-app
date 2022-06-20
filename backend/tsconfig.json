@@ -1,9 +1,18 @@
 {
-  "compilerOptions": {
-    "sourceMap": true,
-    "outDir": "dist",
-    "strict": true,
-    "lib": ["esnext"],
-    "esModuleInterop": true
-  }
+    "compilerOptions": {
+        "sourceMap": true,
+        "outDir": "dist",
+        "strict": true,
+        "lib": [
+            "esnext"
+        ],
+        "esModuleInterop": true
+    },
+    "ignore": [],
+    "watch": [
+        "src/**/*.ts"
+    ],
+    "execMap": {
+        "ts": "node --inspect=0.0.0.0:9229 --nolazy -r ts-node/register"
+    }
 }

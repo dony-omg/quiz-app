@@ -1,13 +1,22 @@
-version: "3.2"
+version: "3.8"
 
 services:
   be-api:
-    container_name: be-api
+    # container_name: be-api
+    env_file:
+      - .env
     build:
       context: .
-      dockerfile: Dockerfile
+      #dockerfile: Dockerfile
+      target: dev
+    volumes:
+      - .:/src
     ports:
       - "3001:3001"
+    command: npm run dev
+    environment:
+      NODE_ENV: development
+      DEBUG: nodejs-docker-express:*
     depends_on:
       - postgres
 

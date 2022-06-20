@@ -1,8 +1,31 @@
-FROM node:latest
+FROM node:latest as base
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /src
+COPY  package*.json /
+EXPOSE 3000
 
+
+# FROM base as production
+# ENV NODE_ENV=production
+
+# # Copy package.json in current dir
+# COPY ["package.json", "package-lock.json", "./prisma", "./"]
+
+# # If you are building your code production
+# RUN npm ci
+# # Bundle app source
+# COPY . .
+# CMD [ "npm","start" ]
+
+FROM base as dev
+ENV NODE_ENV=development
+# Copy package.json in current dir
+COPY ["package.json", "package-lock.json", "./prisma", "./"]
+RUN npm install -g nodemon && npm install
+# Bundle app source
+COPY . /
+CMD ["nodemon", "bin/www"]
 # Install app dependencies
 # A wildcard is use to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
@@ -10,22 +33,18 @@ WORKDIR /usr/src/app
 # COPY package*.json ./
 # COPY prisma ./prisma/
 
-# Copy package.json in current dir
-COPY ["package.json", "package-lock.json", "./prisma", "./"]
 
-RUN npm install
+
+#RUN npm install
 
 # If you are building your code production
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY . .
+#COPY . .
 
-# RUN npm run dev
-
-EXPOSE 3000
 
 # Run app
-# CMD ["ts-node","./src/index.ts"]
-CMD [ "npm", "run", "dev" ]
+#CMD ["ts-node","./src/index.ts"]
+#CMD [ "npm", "run", "dev" ]
 
